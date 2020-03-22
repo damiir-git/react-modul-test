@@ -1,0 +1,34 @@
+[
+    {
+        "Id": 1,
+        "Name": "ИП Петров",
+        "OGRN": "305356364383690",
+        "Type": 0,
+        "RegistrationDate": "2019-05-06",
+        "Active": true
+    },
+    {
+        "Id": 2,
+        "Name": "ИП Сидоров",
+        "OGRN": "315643019327134",
+        "Type": 0,
+        "RegistrationDate": "2014-12-16",
+        "Active": true
+    },
+    {
+        "Id": 3,
+        "Name": "ООО Ромашка",
+        "OGRN": "1154784309206",
+        "Type": 1,
+        "RegistrationDate": "2004-01-31",
+        "Active": false
+    },
+    {
+        "Id": 4,
+        "Name": "ООО Рассвет",
+        "OGRN": "1156856972029",
+        "Type": 1,
+        "RegistrationDate": "2001-05-15",
+        "Active": true
+    }
+]
