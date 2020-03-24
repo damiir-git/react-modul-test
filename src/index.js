@@ -3,53 +3,29 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 import {dateFormat, getYesNo} from './common.js';
-import data from './data/companies.json';
-import AgentTypes from './data/agentTypes.json';
+import {getCompanies, getAgentTypes} from './api';
+import {Table, Row, Item, Header} from './tables';
 
-class Table extends React.Component {
-  render() {
-    return <div className="Table">{this.props.children}</div>
-  }
-}
-
-class Row extends React.Component {
-  render() {
-    return <div className="Row">{this.props.children}</div>
-  }
-}
-
-class Head extends React.Component {
-  render() {
-    return <div className="Head">{this.props.children}</div>
-  }
-}
-
-class Item extends React.Component {
-  render() {
-    return <div className="Item">{this.props.children}</div>
-  }
-}
-
-class Header extends React.Component {
-  render() {
-    return (
-      <Head>
-        {this.props.heads.map((item) => {
-          return (
-            <Item key={item.id}>{item.name}</Item>
-          );
-        })}
-      </Head>
-    )
-  }
-}
+// import { createStore } from 'redux';
+// import { Provider } from 'react-redux';
 
 class List extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      data: data
+      companies: [],
+      agentTypes: []
     };
+
+    getCompanies().then((response) => {
+      this.state = {...this.state, ...{companies: response}};
+    })
+
+    getAgentTypes().then((response) => {
+      this.state = {...this.state, ...{agentTypes: response}};
+    })
+    
   }
   render() {
     const heads = [
@@ -62,13 +38,13 @@ class List extends React.Component {
     return (
       <Table>
         <Header key="head" heads={heads} />
-        {this.state.data.map((item) => {
+        {this.state.companies.map((item) => {
           return (
             <Row key={item.Id}>
               <Item>{item.Id}</Item>
               <Item>{item.Name}</Item>
               <Item>{item.OGRN}</Item>
-              <Item>{AgentTypes[item.Type]}</Item>
+              <Item>{this.state.AgentTypes[item.Type]}</Item>
               <Item>{dateFormat(item.RegistrationDate)}</Item>
               <Item>{getYesNo(item.Active)}</Item>
             </Row>
@@ -85,3 +61,13 @@ ReactDOM.render(
   <List />,
   document.getElementById('root')
 );
+
+
+/*
+npm install
+
+npm start
+
+start json-server
+json-server --watch ./src/data/db.json --port 3004
+*/
