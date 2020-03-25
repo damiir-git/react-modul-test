@@ -33,14 +33,8 @@
             "Active": true
         }
     ],
-    "agentTypes": [
-        {
-            "Id": 0,
-            "Name": "ИП"
-        },
-        {
-            "Id": 1,
-            "Name": "ООО"
-        }
-    ]
+    "agentTypes": {
+        "0": "ИП",
+        "1": "ООО"
+    }
 }
