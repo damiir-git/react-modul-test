@@ -31,3 +31,7 @@ ol, ul {
   flex-direction: column;
   flex-basis: 150px;
 }
+
+.Error {
+  color: red;
+}
