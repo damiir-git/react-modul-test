@@ -1,8 +1,15 @@
-const READ_ITEM = 'READ_ITEM';
-const actionReadItem = {type: READ_ITEM, payload: null};
+export const LOAD_DATA = 'LOAD_DATA';
+export const PUT_DATA = 'PUT_DATA';
 
-const EDIT_ITEM = 'EDIT_ITEM';
-const actionEditItem = {type: EDIT_ITEM, payload: null};
+export const putData = (dataFromServer) => {
+    return {
+        type: PUT_DATA,
+        payload: dataFromServer
+    };
+}
 
-const DEL_ITEM = 'DEL_ITEM';
-const actionDelItem = {type: DEL_ITEM, payload: null};
+export const loadData = () => {
+    return {
+        type: LOAD_DATA
+    }
+}
