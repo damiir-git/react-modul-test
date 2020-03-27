@@ -3,11 +3,14 @@ function addLeadingZero(value) {
 }
 
 function dateFormat(value) {
-    let date = new Date(value);
-    const dd = addLeadingZero(date.getDate());
-    const mm = addLeadingZero(date.getMonth()+1);
-    const yyyy = date.getFullYear();
-    return `${dd}.${mm}.${yyyy}`;
+    if (value) {
+        let date = new Date(value);
+        const dd = addLeadingZero(date.getDate());
+        const mm = addLeadingZero(date.getMonth()+1);
+        const yyyy = date.getFullYear();
+        return `${dd}.${mm}.${yyyy}`;
+    }
+    return '';
 }
 
 function getYesNo(value) {

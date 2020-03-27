@@ -2,73 +2,70 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-import { dateFormat, getYesNo } from './common.js';
-import { Table, Row, Item, Header } from './components/tables';
+import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
+
+import CardContainer from './components/CardContainer';
+import ListContainer from './components/ListContainer';
+import FormContainter from './components/FormContainter';
 
 import { createStore, applyMiddleware } from 'redux';
-import { Provider, connect } from 'react-redux';
+import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
 import { logger } from 'redux-logger';
 
-
-import { reducer } from './store/reducers';
-import { loadData } from './store/actions';
+import rootReducer from './store/reducers'
 import rootSaga from './store/sagas';
 
 const sagaMiddleware = createSagaMiddleware();
-const store = createStore(reducer, applyMiddleware(logger, sagaMiddleware))
+const store = createStore(rootReducer, applyMiddleware(logger, sagaMiddleware))
 
 sagaMiddleware.run(rootSaga);
 
 class App extends React.Component {
-  componentDidMount() {
-    this.props.loadData();
+  handleClick(id, history) {
+    history.push(`/companies/${id}`);
+  }
+
+  navigation(id) {
+    return (
+      <div>
+        <Link to='/'>К списку</Link>&nbsp;
+        <Link to={`/companies/edit/${id}`}>Редактировать</Link>&nbsp;
+        <Link to={`/companies/${id}`}>К карточке</Link>
+      </div>
+    )
   }
 
   render() {
-    const heads = [
-      { id: 'Id', name: 'Ид' },
-      { id: 'Name', name: 'Наименование' },
-      { id: 'OGRN', name: 'ОГРН' },
-      { id: 'Type', name: 'Тип' },
-      { id: 'RegistrationDate', name: 'Дата регистрации' },
-      { id: 'Active', name: 'Активность' }];
-
-    if (this.props.loading) {
-      return <div>Загрузка...</div>
-    }
-    if (this.props.error) {
-      return <div className="Error">{this.props.error.message}</div>
-    }
-    return <Table>
-      <Header key="head" heads={heads} />
-      {this.props.companies.map((item) => {
-        return (
-          <Row key={item.Id}>
-            <Item>{item.Id}</Item>
-            <Item>{item.Name}</Item>
-            <Item>{item.OGRN}</Item>
-            <Item>{this.props.agentTypes[item.Type]}</Item>
-            <Item>{dateFormat(item.RegistrationDate)}</Item>
-            <Item>{getYesNo(item.Active)}</Item>
-          </Row>
-        );
-      })}
-    </Table>
+    return (
+      <Switch>
+        <Route exact path='/' render={(props) => (
+          <ListContainer onRowClick={(id) => this.handleClick(id, props.history)} />
+        )} />
+        <Route exact path='/companies/:number' render={(props) => (
+          <div>
+            {this.navigation(props.match.params.number)}
+            <CardContainer id={props.match.params.number} />
+          </div>
+        )} />
+        <Route exact path='/companies/edit/:number' render={(props) => (
+          <div>
+            {this.navigation(props.match.params.number)}
+            <FormContainter id={props.match.params.number} onSave={(id) => this.handleClick(id, props.history)}/>
+          </div>
+        )} />
+      </Switch>
+    )
   }
 }
-
-const mapDispatchToProps = { loadData };
-
-const ConnectedApp = connect((state) => {
-  return state;
-}, mapDispatchToProps)(App)
 
 // ========================================
 
 ReactDOM.render(
-  <Provider store={store}>
-    <ConnectedApp />
-  </Provider>,
+  <BrowserRouter>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </BrowserRouter>,
   document.getElementById('root')
 );
