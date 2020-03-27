@@ -1,8 +1,9 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import List from '../components/List';
+import Loading from '../components/Loading';
 
-import { loadData} from '../store/list/actions';
+import { loadData } from '../store/list/actions';
 
 class CardContainer extends React.Component {
     componentDidMount() {
@@ -10,21 +11,25 @@ class CardContainer extends React.Component {
         if (this.props.companies.length === 0) {
             this.props.loadData(this.props.id);
         }
-        
+
     }
     render() {
-        return <List
-            onRowClick = {this.props.onRowClick}
-            companies = {this.props.companies}
-            agentTypes = {this.props.agentTypes}
-        />
+        const {loading, error, onRowClick, companies, agentTypes} = this.props;
+        return (
+            <Loading loading={loading} error={error}>
+                <List
+                    onRowClick={onRowClick}
+                    companies={companies}
+                    agentTypes={agentTypes}
+                />
+            </Loading>
+        )
     }
 }
 
 const mapStateToProps = (state) => {
     return {
-        companies: state.list.companies,
-        agentTypes: state.list.agentTypes
+        ...state.list
     }
 }
 

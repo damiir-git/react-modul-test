@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Row, Item, Header } from './Tables';
+import { Table, Row, Item, Header } from '../components/Tables';
 import { dateFormat, getYesNo } from '../common.js';
 
 export default class List extends React.Component {
