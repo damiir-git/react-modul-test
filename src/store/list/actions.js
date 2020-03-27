@@ -3,6 +3,7 @@ export const REQUEST_DATA_ERROR = 'REQUEST_DATA_ERROR';
 export const LOAD_DATA = 'LOAD_DATA';
 export const PUT_DATA = 'PUT_DATA';
 export const PUT_AGENT_TYPES_DATA = 'PUT_AGENT_TYPES_DATA';
+export const UPDATE_COMPANIES = 'UPDATE_COMPANIES';
 
 export const requestData = () => {
     return {
@@ -35,4 +36,11 @@ export const putAgentTypes = (dataFromServer) => {
         type: PUT_AGENT_TYPES_DATA,
         payload: dataFromServer
     };
+}
+
+export const updateCompanies = (dataFromServer) => {
+    return {
+        type: UPDATE_COMPANIES,
+        payload: dataFromServer
+    }
 }

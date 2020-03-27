@@ -8,7 +8,7 @@ class Table extends React.Component {
 
 class Row extends React.Component {
     render() {
-        return <div className="Row">{this.props.children}</div>
+        return <div className="Row" onClick={() => this.props.onClick()}>{this.props.children}</div>
     }
 }
 
